@@ -57,3 +57,54 @@ class EditEmployees(Resource):
         )
         return response
 api.add_resource(EditEmployees, '/employees/edit')  
+
+
+################### EMPLOYERS ################
+class EmployeRs(Resource):
+    def get(self):
+        response_dict_list = [n.to_dict() for n in Employer.query.all()]
+
+        response = make_response(
+            jsonify(response_dict_list),
+            200,
+        )
+
+        return response
+    
+    def post(self):
+        new_employer = Employer(
+            name=request.json['name'],
+            description=request['description']
+        )
+
+        db.session.add(new_employer)
+        db,session.commit()
+
+        response_dict = new_employer.to_dict()
+
+        response = make_response(
+            jsonify(response_dict),
+            201,
+        )
+
+        return response
+   
+api.add_resource(Employers, '/employers')   
+
+class EditEmployers(Resource):
+     
+    def patch(self,id):
+        employer = Employer.query.get(int(id))
+        for attr in request.json:
+            setattr(employer, attr, request.json[attr])
+        db.session.add(employer)
+        db.session.commit()
+
+        response_dict = employer.to_dict()
+
+        response = make_response(
+            jsonify(response_dict),
+            200,
+        )
+        return response
+api.add_resource(EditEmployers, '/employers/edit')  
