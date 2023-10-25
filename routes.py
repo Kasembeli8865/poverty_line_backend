@@ -184,3 +184,77 @@ class JobByID(Resource):
 
         return reponse
 api.add_resource(JobByID, '/jobs/<int:id>')  
+
+
+################### RATINGS ################
+class Ratings(Resource):
+    def get(self):
+        response_dict_list = [n.to_dict() for n in Rating.query.all()]
+
+        response = make_response(
+            jsonify(response_dict_list),
+            200,
+        )
+
+        return response
+    
+    def post(self):
+        new_rating = Rating(
+            rating=request.json['rating'],
+            date=request.json['date']
+        )
+
+        db.session.add(new_rating)
+        db.session.commit()
+
+        response_dict = new_rating.to_dict()
+
+        response = make_response(
+            jsonify(response_dict),
+            201,
+        )
+
+        return response
+   
+api.add_resource(Ratings, '/ratings')   
+
+class RatingByID(Resource):
+    def get(self, id):
+        response_dict = Rating.query.get(int(id))
+        response = make_response(
+            jsonify(response_dict),
+            200,
+        )
+        return response
+
+    def patch(self,id):
+        rating = Rating.query.get(int(id))
+        for attr in request.json:
+            setattr(rating, attr, request.json[attr])
+        db.session.add(rating)
+        db.session.commit()
+
+        response_dict = rating.to_dict()
+
+        response = make_response(
+            jsonify(response_dict),
+            200,
+        )
+        return response
+    
+    def delete(self, id):
+        rating = Rating.query.get(int(id))
+        db.session.delete(rating)
+        db.session.commit()
+
+        response_dict = {
+            'message':'rating succesfully deleted'
+        }
+
+        reponse = make_response(
+            jsonify(response_dict),
+            200,
+        )
+
+        return reponse
+api.add_resource(RatingByID, '/ratings/<int:id>')  
