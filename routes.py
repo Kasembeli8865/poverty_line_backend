@@ -40,7 +40,7 @@ class Employees(Resource):
    
 api.add_resource(Employees, '/employees')   
 
-class EditEmployees(Resource):
+class EmployeesByID(Resource):
      
     def patch(self,id):
         employee = Employee.query.get(int(id))
@@ -56,11 +56,11 @@ class EditEmployees(Resource):
             200,
         )
         return response
-api.add_resource(EditEmployees, '/employees/edit')  
+api.add_resource(EmployeesByID, '/employees/<int:id>')  
 
 
 ################### EMPLOYERS ################
-class EmployeRs(Resource):
+class Employers(Resource):
     def get(self):
         response_dict_list = [n.to_dict() for n in Employer.query.all()]
 
@@ -78,7 +78,7 @@ class EmployeRs(Resource):
         )
 
         db.session.add(new_employer)
-        db,session.commit()
+        db.session.commit()
 
         response_dict = new_employer.to_dict()
 
@@ -91,7 +91,7 @@ class EmployeRs(Resource):
    
 api.add_resource(Employers, '/employers')   
 
-class EditEmployers(Resource):
+class EmployersByID(Resource):
      
     def patch(self,id):
         employer = Employer.query.get(int(id))
@@ -107,4 +107,66 @@ class EditEmployers(Resource):
             200,
         )
         return response
-api.add_resource(EditEmployers, '/employers/edit')  
+api.add_resource(EmployersByID, '/employers/<int:id>')  
+
+
+################### JOBS ################
+class Jobs(Resource):
+    def get(self):
+        response_dict_list = [n.to_dict() for n in Job.query.all()]
+
+        response = make_response(
+            jsonify(response_dict_list),
+            200,
+        )
+
+        return response
+    
+    def post(self):
+        new_job = Job(
+            title=request.json['title'],
+            description=request['description'],
+            location=request['location'],
+            type=request['type']
+        )
+
+        db.session.add(new_job)
+        db.session.commit()
+
+        response_dict = new_job.to_dict()
+
+        response = make_response(
+            jsonify(response_dict),
+            201,
+        )
+
+        return response
+   
+api.add_resource(Jobs, '/jobs')   
+
+class JobByID(Resource):
+    def get(self, id):
+        response_dict = Job.query.get(int(id))
+        response = make_response(
+            jsonify(response_dict),
+            200,
+        )
+        return response
+
+    def patch(self,id):
+        job = Job.query.get(int(id))
+        for attr in request.json:
+            setattr(job, attr, request.json[attr])
+        db.session.add(job)
+        db.session.commit()
+
+        response_dict = job.to_dict()
+
+        response = make_response(
+            jsonify(response_dict),
+            200,
+        )
+        return response
+    
+    
+api.add_resource(JobByID, '/jobs/<int:id>')  
