@@ -1,9 +1,14 @@
 from flask import Flask, jsonify, request, make_response
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
+from models import db, Employees, Employers, Jobs, Ratings
 
 app = Flask(__name__)
 api = Api(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
 
 
 ################### EMPLOYEES ################
@@ -27,7 +32,7 @@ class Employees(Resource):
         )
 
         db.session.add(new_employee)
-        db,session.commit()
+        db.session.commit()
 
         response_dict = new_employee.to_dict()
 
