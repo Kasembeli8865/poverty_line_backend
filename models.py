@@ -16,7 +16,7 @@ class Employee(db.Model):
         self.email = email
         self.skills = skills
         self.experience = experience
-        
+
 
 class Job(db.Model):
    
@@ -33,3 +33,15 @@ class Job(db.Model):
         self.description = description
         self.location = location
         self.type = type
+
+class Rating(db.Model):
+    
+    __tablename__ = 'ratings'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.Integer)
+    date = db.Column(db.DateTime)
+
+    def __init__(self, rating, date):
+        self.rating = rating
+        self.date = date
