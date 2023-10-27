@@ -17,6 +17,27 @@ class Employee(db.Model):
         self.skills = skills
         self.experience = experience
 
+    def __repr__(self):
+        return f'<Employee {self.id} {self.name}>'
+    
+
+
+class Employer(db.Model):
+   
+    __tablename__ = 'employers'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    description = db.Column(db.Text)
+
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+    
+    def __repr__(self):
+        return f'<Employer {self.id} {self.name}>'
+
+
 
 class Job(db.Model):
    
@@ -34,6 +55,9 @@ class Job(db.Model):
         self.location = location
         self.type = type
 
+    def __repr__(self):
+        return f'<Job {self.id} {self.title}>'
+
 class Rating(db.Model):
     
     __tablename__ = 'ratings'
@@ -45,3 +69,6 @@ class Rating(db.Model):
     def __init__(self, rating, date):
         self.rating = rating
         self.date = date
+
+    def __repr__(self):
+        return f'<Rating {self.id} {self.rating}>'
