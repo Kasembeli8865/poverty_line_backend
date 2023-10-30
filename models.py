@@ -8,6 +8,8 @@ class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     email = db.Column(db.String)
+    username = db.Column(db.String)
+    password = db.column(db.Varchar)
     skills = db.Column(db.String)
     experience = db.Column(db.Integer)
 
@@ -18,7 +20,7 @@ class Employee(db.Model):
         self.experience = experience
 
     def __repr__(self):
-        return f'<Employee {self.id} {self.name}>'
+        return f'<Employee {self.id} {self.name} {self.email} {self.skills} {self.experience}>'
     
 
 
@@ -28,6 +30,8 @@ class Employer(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+    username = db.Column(db.String)
+    password = db.column(db.Varchar)
     description = db.Column(db.Text)
 
     def __init__(self, name, description):
@@ -35,7 +39,7 @@ class Employer(db.Model):
         self.description = description
     
     def __repr__(self):
-        return f'<Employer {self.id} {self.name}>'
+        return f'<Employer {self.id} {self.name} {self.description}>'
 
 
 
