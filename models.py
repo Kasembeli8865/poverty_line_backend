@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import validates
 db = SQLAlchemy()
 
 class Employee(db.Model):
@@ -6,21 +7,43 @@ class Employee(db.Model):
     __tablename__ = 'employees' 
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    email = db.Column(db.String)
-    username = db.Column(db.String)
-    password = db.column(db.Varchar)
-    skills = db.Column(db.String)
+    name = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    username = db.Column(db.String(80), nullable=False)
+    password = db.column(db.String(80), nullable=False)
+    skills = db.Column(db.String(300))
     experience = db.Column(db.Integer)
 
-    def __init__(self, name, email, skills, experience):
+    def __init__(self, name, email,username, password, skills, experience):
         self.name = name
         self.email = email
+        self.username = username
+        self.password = password
         self.skills = skills
         self.experience = experience
 
     def __repr__(self):
         return f'<Employee {self.id} {self.name} {self.email} {self.skills} {self.experience}>'
+    
+    @validates('name')
+    def validate_name(self, key, name):
+        if not name:
+            raise AssertionError('Name required')  
+
+    @validates('email')
+    def validate_email(self, key, email):
+        if not Email()(email):
+            raise AssertionError('Invalid email')
+    
+    @validates('username')
+    def validate_username(self, key, username):
+        if not username:
+            raise AssertionError('Username required')
+  
+    @validates('password')
+    def validate_password(self, key, password):
+        if not Length(min=8)(password):
+            raise AssertionError('Password must be 8 chars')
     
 
 
