@@ -50,6 +50,7 @@ class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     title = db.Column(db.String)
     description = db.Column(db.Text)
+    salary = db.Column(db.Integer)
     location = db.Column(db.String)
     type = db.Column(db.String)
 
