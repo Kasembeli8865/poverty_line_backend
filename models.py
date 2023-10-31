@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
+from wtforms.validators import Email, Length
 db = SQLAlchemy()
 
 class Employee(db.Model):
