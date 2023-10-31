@@ -32,7 +32,7 @@ class Employee(db.Model):
             'name': self.name,
             'email': self.email,
             'username': self.username,
-            'password': self.password,
+            # 'password': self.password,
             'skills': self.skills,
             'experience': self.experience
         }
@@ -69,8 +69,9 @@ class Employer(db.Model):
     password = db.column(db.Varchar)
     description = db.Column(db.Text)
 
-    def __init__(self, name, description):
+    def __init__(self, name, username, description):
         self.name = name
+        self.username = username
         self.description = description
     
     def __repr__(self):
@@ -81,7 +82,7 @@ class Employer(db.Model):
             'id': self.id,
             'name': self.name,
             'username': self.username,
-            'password': self.password, 
+            # 'password': self.password, 
             'description': self.description
         }
 
@@ -97,12 +98,14 @@ class Job(db.Model):
     salary = db.Column(db.Integer)
     location = db.Column(db.String)
     type = db.Column(db.String)
+    image = db.Column(db.String)
 
-    def __init__(self, title, description, location, type):
+    def __init__(self, title, description, location, type, image):
         self.title = title
         self.description = description
         self.location = location
         self.type = type
+        self.image = image
 
     def __repr__(self):
         return f'<Job {self.id} {self.title}>'
@@ -113,7 +116,8 @@ class Job(db.Model):
             'description': self.description,
             'salary': self.salary,
             'location': self.location,
-            'type': self.type
+            'type': self.type,
+            'image': self.image
         }
 
 class Rating(db.Model):
