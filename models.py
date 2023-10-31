@@ -66,6 +66,7 @@ class Employer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     username = db.Column(db.String)
+    username = db.Column(db.String)
     password = db.column(db.Varchar)
     description = db.Column(db.Text)
 
