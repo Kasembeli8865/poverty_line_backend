@@ -26,6 +26,17 @@ class Employee(db.Model):
     def __repr__(self):
         return f'<Employee {self.id} {self.name} {self.email} {self.skills} {self.experience}>'
     
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'username': self.username,
+            'password': self.password,
+            'skills': self.skills,
+            'experience': self.experience
+        }
+    
     @validates('name')
     def validate_name(self, key, name):
         if not name:
