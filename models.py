@@ -106,6 +106,15 @@ class Job(db.Model):
 
     def __repr__(self):
         return f'<Job {self.id} {self.title}>'
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'salary': self.salary,
+            'location': self.location,
+            'type': self.type
+        }
 
 class Rating(db.Model):
     
@@ -121,3 +130,10 @@ class Rating(db.Model):
 
     def __repr__(self):
         return f'<Rating {self.id} {self.rating}>'
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'rating': self.rating,
+            'date': self.date.strftime('%Y-%m-%d %H:%M:%S') if self.date else None
+        }
+    
